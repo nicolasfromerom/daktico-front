@@ -18,6 +18,6 @@ const router = useRouter();
 
 function logout() {
   sessionStorage.removeItem("role");
-  router.push("/auth/student");
+  router.push("/");
 }
 </script>

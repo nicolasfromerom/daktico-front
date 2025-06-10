@@ -46,6 +46,13 @@
           Inicia Sesión
         </button>
       </form>
+      <button
+        type="button"
+        class="mt-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-md py-2 px-4 w-full"
+        @click="goBack"
+      >
+        Atrás
+      </button>
     </div>
   </div>
 </template>
@@ -81,7 +88,6 @@ const login = async () => {
         title: "Éxito",
         text: "Inicio de sesión exitoso",
       });
-
       router.push({
         name: "admin",
       });
@@ -95,4 +101,8 @@ const login = async () => {
     });
   }
 };
+
+function goBack() {
+  router.push({ name: "home" });
+}
 </script>

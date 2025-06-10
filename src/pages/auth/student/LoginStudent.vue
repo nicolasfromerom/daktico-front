@@ -47,6 +47,13 @@
           Inicia Sesión
         </button>
       </form>
+      <button
+        type="button"
+        class="mt-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-md py-2 px-4 w-full"
+        @click="goBack"
+      >
+        Atrás
+      </button>
     </div>
   </div>
 </template>
@@ -77,18 +84,14 @@ const login = async () => {
       sessionStorage.setItem("token", token);
       sessionStorage.setItem("user", JSON.stringify(data.user));
       sessionStorage.setItem("typeLogin", typeLogin.value);
+      router.push({ name: "student" });
       Swal.fire({
         icon: "success",
         title: "Éxito",
         text: "Inicio de sesión exitoso",
       });
-
-      router.push({
-        name: "admin",
-      });
     }
   } catch (error) {
-    console.error("Error during login:", error);
     Swal.fire({
       icon: "error",
       title: "Error",
@@ -96,4 +99,8 @@ const login = async () => {
     });
   }
 };
+
+function goBack() {
+  router.push({ name: "home" });
+}
 </script>

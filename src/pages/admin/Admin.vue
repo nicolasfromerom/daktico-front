@@ -20,6 +20,6 @@ const router = useRouter();
 
 function logout() {
   sessionStorage.removeItem("role");
-  router.push("/auth/admin");
+  router.push("/");
 }
 </script>

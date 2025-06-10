@@ -1,7 +1,8 @@
 import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import { userRoles } from "../utils/constants";
 
-function getRole(): string | null {
-  return sessionStorage.getItem("role");
+function getRole(): number | null {
+  return Number(sessionStorage.getItem("typeLogin"));
 }
 
 export function isAuthenticated(
@@ -9,17 +10,15 @@ export function isAuthenticated(
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ) {
-  // Ejemplo: cookie "role" puede ser "student" o "admin"
   const role = getRole();
 
   if (to.path.startsWith("/auth")) {
-    // Permitir acceso a rutas de login
     next();
     return;
   }
 
   if (to.path.startsWith("/admin")) {
-    if (role === "admin") {
+    if (role === userRoles.ADMIN) {
       next();
     } else {
       next("/auth/admin");
@@ -28,7 +27,7 @@ export function isAuthenticated(
   }
 
   if (to.path.startsWith("/student")) {
-    if (role === "student") {
+    if (role === userRoles.STUDENT) {
       next();
     } else {
       next("/auth/student");
