@@ -14,7 +14,6 @@
     
 ## Deployment
 
-```
 Para desplegar este proyecto en modo de desarrollo ejecutar: 
 
 ```bash
