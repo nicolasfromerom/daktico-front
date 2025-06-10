@@ -4,6 +4,22 @@
       <h1 class="text-3xl font-bold text-blue-700">
         Hola, soy un administrador
       </h1>
+      <button
+        class="mt-6 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-md py-2 px-4"
+        @click="logout"
+      >
+        Cerrar sesión
+      </button>
     </div>
   </div>
 </template>
+
+<script setup>
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+function logout() {
+  sessionStorage.removeItem("role");
+  router.push("/auth/admin");
+}
+</script>

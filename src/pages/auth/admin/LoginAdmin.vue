@@ -22,6 +22,7 @@
             name="username"
             class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
             autocomplete="off"
+            v-model="correo"
           />
         </div>
         <!-- Password Input -->
@@ -33,6 +34,7 @@
             name="password"
             class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
             autocomplete="off"
+            v-model="password"
           />
         </div>
         <!-- Remember Me Checkbox -->
@@ -49,12 +51,48 @@
 </template>
 <script setup>
 import { useRouter } from "vue-router";
-const router = useRouter();
+import { LoginService } from "../../../service/login.service";
+import { ref } from "vue";
+import Swal from "sweetalert2";
+import { userRoles } from "../../../utils/constants";
 
-const login = () => {
-  // Setea la cookie de rol administrador (expira en 1 día)
-  sessionStorage.setItem("role", "admin");
-  // Redirige a la pantalla de admin
-  router.push("/admin");
+const router = useRouter();
+const loginService = new LoginService();
+const correo = ref("");
+const password = ref("");
+const typeLogin = ref(userRoles.ADMIN);
+
+const login = async () => {
+  try {
+    const data = await loginService.login(
+      correo.value,
+      password.value,
+      typeLogin.value
+    );
+    console.log("Login successful:", data);
+
+    if (data.ok) {
+      const token = data.token;
+      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("user", JSON.stringify(data.user));
+      sessionStorage.setItem("typeLogin", typeLogin.value);
+      Swal.fire({
+        icon: "success",
+        title: "Éxito",
+        text: "Inicio de sesión exitoso",
+      });
+
+      router.push({
+        name: "admin",
+      });
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Correo o contraseña incorrectos",
+    });
+  }
 };
 </script>
